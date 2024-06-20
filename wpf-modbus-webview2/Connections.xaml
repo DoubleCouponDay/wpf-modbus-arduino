@@ -14,12 +14,12 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TextBox HorizontalAlignment="Left" Margin="103,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Height="18"/>
-        <Label Content="Saw Address" Margin="9,103,405,321" Grid.Column="1"/>
+        <Label Content="Saw Address" Margin="9,103,702,321" Grid.Column="1"/>
         <TextBox HorizontalAlignment="Left" Margin="103,138,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Height="18"/>
-        <Label Content="Trolley Address" Margin="9,134,405,290" Grid.Column="1"/>
+        <Label Content="Trolley Address" Margin="9,134,702,290" Grid.Column="1"/>
         <Label Content="Connect to Machinery" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="127"/>
-        <Button Content="Button" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="247,105,0,0" VerticalAlignment="Top"/>
-        <Button Content="Button" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="247,137,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="247,105,0,0" VerticalAlignment="Top" Click="ConnectSaw_Click" />
+        <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="247,137,0,0" VerticalAlignment="Top" Click="ConnectTrolley_Click" />
         <Label x:Name="SawConnectionOutcome"  Content="{Binding Path=SawOutcome}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="314,103,0,0" VerticalAlignment="Top" Width="228"/>
         <Label x:Name="TrolleyConnectionOutcome" Content="{Binding Path=TrolleyOutcome}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="314,134,0,0" VerticalAlignment="Top" Width="228"/>
     </Grid>

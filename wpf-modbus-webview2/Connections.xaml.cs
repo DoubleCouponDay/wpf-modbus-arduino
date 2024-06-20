@@ -20,16 +20,21 @@ namespace wpf_modbus_webview2
     /// </summary>
     public partial class Connections : Page
     {
-        public string SawOutcome { get; private set; }
-        public string TrolleyOutcome { get; private set; }
+        public string SawOutcome { get; private set; } = string.Empty;
+        public string TrolleyOutcome { get; private set; } = string.Empty;
 
         public Connections()
         {
-            InitializeComponent();
             DataContext = this;
+            InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ConnectSaw_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ConnectTrolley_Click(object sender, RoutedEventArgs e)
         {
 
         }
