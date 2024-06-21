@@ -6,6 +6,6 @@
         xmlns:local="clr-namespace:wpf_modbus_webview2"
         xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" x:Class="wpf_modbus_webview2.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid/>
+        Title="wpf-modbus-webview2 example" Height="450" Width="800">
+    <local:Connections></local:Connections>
 </Window>

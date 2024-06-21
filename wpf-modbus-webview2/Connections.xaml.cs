@@ -25,8 +25,8 @@ namespace wpf_modbus_webview2
 
         public Connections()
         {
-            DataContext = this;
             InitializeComponent();
+            DataContext = this;
         }
 
         private void ConnectSaw_Click(object sender, RoutedEventArgs e)
@@ -35,6 +35,16 @@ namespace wpf_modbus_webview2
         }
 
         private void ConnectTrolley_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SawAddress_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+        }
+
+        private void TrolleyAddress_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
