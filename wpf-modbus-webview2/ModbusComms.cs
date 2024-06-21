@@ -10,17 +10,52 @@ using System.Threading.Tasks;
 
 namespace wpf_modbus_webview2
 {
-    class ModbusComms
+    class Modbus : IModbusBridge, IDisposable
     {
         IModbusBridge bridge;
 
-        public ModbusComms(IModbusBridge inputBridge)
+        public Modbus(IModbusBridge inputBridge)
         {
             bridge = inputBridge;
         }
+
+        public void Connect(IPAddress address)
+        {
+            bridge.Connect(address);
+        }
+
+        public void Dispose()
+        {
+            bridge.Dispose();
+        }
+
+        public bool IsConnected()
+        {
+            return bridge.IsConnected();
+        }
+
+        public Span<byte> ReadCoils(int unitIdentifier, int startingAddress, int quantity)
+        {
+            return bridge.ReadCoils(unitIdentifier, startingAddress, quantity);
+        }
+
+        public Span<T> ReadHoldingRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged
+        {
+            return ReadHoldingRegisters<T>(unitIdentifier, startingAddress, count);
+        }
+
+        public void WriteSingleCoil(int unitIdentifier, int startingAddress, bool value)
+        {
+            bridge.WriteSingleCoil(unitIdentifier, startingAddress, value);
+        }
+
+        public void WriteSingleRegister(int unitIdentifier, int registerAddress, short value)
+        {
+            bridge.WriteSingleRegister(unitIdentifier, registerAddress, value);
+        }
     }
 
-    interface IModbusBridge
+    interface IModbusBridge : IDisposable
     {
         bool IsConnected();
         void Connect(IPAddress address);
@@ -33,7 +68,7 @@ namespace wpf_modbus_webview2
     /// <summary>
     /// Disconnects the current connection
     /// </summary>
-    class ModbusBridge : IModbusBridge
+    class ModbusBridge : IModbusBridge, IDisposable
     {
         public IPAddress Address { get; private set; } = IPAddress.None;
         ModbusTcpClient client;
@@ -85,6 +120,14 @@ namespace wpf_modbus_webview2
         {
             AssertConnected();
             client.WriteSingleRegister(unitIdentifier, registerAddress, value);
+        }
+
+        public void Dispose()
+        {
+            if(client.IsConnected)
+            {
+                client.Dispose();
+            }
         }
     }
 }
