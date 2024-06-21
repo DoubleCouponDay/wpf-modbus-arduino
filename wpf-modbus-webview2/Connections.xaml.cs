@@ -46,7 +46,7 @@ namespace wpf_modbus_webview2
 
         private void TrolleyAddress_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+              
         }
     }
 }

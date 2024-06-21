@@ -13,13 +13,16 @@
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="SawAddress" HorizontalAlignment="Left" Margin="114,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Height="20" TextChanged="SawAddress_TextChanged" IsEnabled="True" Focusable="True"/>
-        <Label Content="Saw Address:" Margin="9,102,691,322" Grid.Column="1"/>
-        <TextBox x:Name="TrolleyAddress" HorizontalAlignment="Left" Margin="114,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Height="20" TextChanged="TrolleyAddress_TextChanged" IsEnabled="True" Focusable="True"/>
-        <Label Content="Trolley Address:" Margin="9,134,691,290" Grid.Column="1"/>
         <Label Content="Connect to Machinery (IPV4)" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="127"/>
-        <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="247,105,0,0" VerticalAlignment="Top" Click="ConnectSaw_Click" />
-        <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="247,137,0,0" VerticalAlignment="Top" Click="ConnectTrolley_Click" />
+
+        <Label Content="Saw Address:" HorizontalAlignment="Left" Margin="20,102,0,0" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="127" />
+        <TextBox x:Name="SawAddress" HorizontalAlignment="Left" Margin="315,105,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Height="20" TextChanged="SawAddress_TextChanged" IsEnabled="True" Focusable="True"/>
+
+        <Label Content="Trolley Address:" HorizontalAlignment="Left" Margin="20,134,0,0" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="127" />
+        <TextBox x:Name="TrolleyAddress" HorizontalAlignment="Left" Margin="315,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Height="20" TextChanged="TrolleyAddress_TextChanged" IsEnabled="True" Focusable="True"/>
+
+        <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="448,105,0,0" VerticalAlignment="Top" Click="ConnectSaw_Click" />
+        <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="448,137,0,0" VerticalAlignment="Top" Click="ConnectTrolley_Click" />
         <Label x:Name="SawConnectionOutcome"  Content="{Binding Path=SawOutcome}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="314,110,0,0" VerticalAlignment="Top" Width="228"/>
         <Label x:Name="TrolleyConnectionOutcome" Content="{Binding Path=TrolleyOutcome}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="314,142,0,0" VerticalAlignment="Top" Width="228"/>
     </Grid>
