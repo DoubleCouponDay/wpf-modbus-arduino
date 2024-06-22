@@ -36,6 +36,7 @@ namespace wpf_modbus_webview2
         {
             InitializeComponent();
             DataContext = this;
+            nextPage = new ControlPanel();
         }
 
         void ConnectSaw_Click(object sender, RoutedEventArgs e)
@@ -98,8 +99,7 @@ namespace wpf_modbus_webview2
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var controlPanel = new ControlPanel();
-            NavigationService.Navigate(controlPanel);
+            NavigationService.Navigate(nextPage);
         }
     }
 }
