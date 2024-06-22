@@ -24,7 +24,6 @@ namespace wpf_modbus_webview2
     {
         const string CONNECTION_FAILED = "Error: Connection failed.";
         const string CONNECTION_SUCCESS = "SUCCESS";
-        const string INVALID_IP = "Error: Invalid IP Address.";
 
         bool sawConnected;
         bool trolleyConnected;
@@ -63,7 +62,7 @@ namespace wpf_modbus_webview2
             }
 
             catch(Exception e) {
-                var message = $"{INVALID_IP}: {e.Message}";
+                var message = $"Error: {e.Message}";
                 Helpers.Get.PopupMessage(message);
                 return;
             }
