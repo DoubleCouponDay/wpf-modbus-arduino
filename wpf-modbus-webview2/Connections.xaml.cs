@@ -24,6 +24,7 @@ namespace wpf_modbus_webview2
     {
         const string CONNECTION_FAILED = "Error: Connection failed.";
         const string CONNECTION_SUCCESS = "SUCCESS";
+        const string INVALID_IP = "Error: Invalid IP Address.";
 
         bool sawConnected;
         bool trolleyConnected;
@@ -41,7 +42,7 @@ namespace wpf_modbus_webview2
 
         void ConnectSaw_Click(object sender, RoutedEventArgs e)
         {
-            ConnectToAddress(ref sawConnection, TrolleyOutcome, TrolleyAddress, ref sawConnected);
+            ConnectToAddress(ref sawConnection, SawOutcome, SawAddress, ref sawConnected);
             EvaluateNextPage();
         }
 
@@ -55,7 +56,17 @@ namespace wpf_modbus_webview2
         {
             resultMessage.Content = string.Empty;
             var addressText = input.Text;
-            var address = IPAddress.Parse(addressText);
+            IPAddress address;
+
+            try {
+                address = IPAddress.Parse(addressText);
+            }
+
+            catch(Exception e) {
+                var message = $"{INVALID_IP}: {e.Message}";
+                Helpers.Get.PopupMessage(message);
+                return;
+            }
 
             if(connection == null)
             {
