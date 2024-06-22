@@ -28,6 +28,10 @@ namespace wpf_modbus_webview2
         bool sawConnected;
         bool trolleyConnected;
 
+        ControlPanel nextPage;
+        Modbus sawConnection;
+        Modbus trolleyConnection;
+
         public Connections()
         {
             InitializeComponent();
@@ -36,61 +40,66 @@ namespace wpf_modbus_webview2
 
         void ConnectSaw_Click(object sender, RoutedEventArgs e)
         {
-            SawOutcome.Content = string.Empty;
-            var addressText = SawAddress.Text;
-            var address = IPAddress.Parse(addressText);
-            using var bridge = new ModbusBridge();
-            var modbus = new Modbus(bridge);
-            modbus.Connect(address);
-
-            if(modbus.IsConnected() == false)
-            {
-                SawOutcome.Content = CONNECTION_FAILED;
-                SawOutcome.Background = Brushes.Red;
-                sawConnected = false;
-                return;
-            }
-
-            else
-            {
-                SawOutcome.Content = CONNECTION_SUCCESS;
-                SawOutcome.Background = Brushes.Green;
-                sawConnected = true;
-            }
+            ConnectToAddress(ref sawConnection, TrolleyOutcome, TrolleyAddress, ref sawConnected);
             EvaluateNextPage();
         }
 
         void ConnectTrolley_Click(object sender, RoutedEventArgs e)
         {
-            TrolleyOutcome.Content = string.Empty;
-            var addressText = SawAddress.Text;
-            var address = IPAddress.Parse(addressText);
-            using var bridge = new ModbusBridge();
-            var modbus = new Modbus(bridge);
-            modbus.Connect(address);
+            ConnectToAddress(ref trolleyConnection, TrolleyOutcome, TrolleyAddress, ref trolleyConnected);
+            EvaluateNextPage();
+        }
 
-            if (modbus.IsConnected() == false)
+        void ConnectToAddress(ref Modbus connection, Label resultMessage, TextBox input, ref bool resultFlag)
+        {
+            resultMessage.Content = string.Empty;
+            var addressText = input.Text;
+            var address = IPAddress.Parse(addressText);
+
+            if(connection == null)
             {
-                TrolleyOutcome.Content = CONNECTION_FAILED;
-                TrolleyOutcome.Background = Brushes.Red;
-                trolleyConnected = false;
+                var bridge = new JustWorksBridge(0, 0);
+                connection = new Modbus(bridge);
+                connection.Connect(address);
             }
 
             else
             {
-                TrolleyOutcome.Content = CONNECTION_SUCCESS;
-                TrolleyOutcome.Background = Brushes.Green;
-                trolleyConnected = true;
+                connection.Connect(address);
             }
-            EvaluateNextPage();
+
+            if(connection.IsConnected() == false)
+            {
+                resultMessage.Content = CONNECTION_FAILED;
+                resultMessage.Background = Brushes.Red;
+                resultFlag = false;
+            }
+
+            else
+            {
+                resultMessage.Content = CONNECTION_SUCCESS;
+                resultMessage.Background = Brushes.Green;
+                resultFlag = true;
+            }
         }
 
         void EvaluateNextPage()
         {
             if(sawConnected && trolleyConnected)
             {
-                //this.NavigationService.Navigate();
+                NextPage.Visibility = Visibility.Visible;
             }
+
+            else
+            {
+                NextPage.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var controlPanel = new ControlPanel();
+            NavigationService.Navigate(controlPanel);
         }
     }
 }

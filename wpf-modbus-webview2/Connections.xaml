@@ -25,5 +25,6 @@
         <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="277,137,0,0" VerticalAlignment="Top" Click="ConnectTrolley_Click" />
         <Label x:Name="SawOutcome" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="371,110,0,0" VerticalAlignment="Top" Width="228"/>
         <Label x:Name="TrolleyOutcome" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="371,142,0,0" VerticalAlignment="Top" Width="228"/>
+        <Button x:Name="NextPage" Content="Go to Control Panel" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="150,210,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
     </Grid>
 </Page>
