@@ -22,8 +22,11 @@ namespace wpf_modbus_webview2
     /// </summary>
     public partial class Connections : Page
     {
-        public string SawOutcome { get; private set; } = string.Empty;
-        public string TrolleyOutcome { get; private set; } = string.Empty;
+        const string CONNECTION_FAILED = "Error: Connection failed.";
+        const string CONNECTION_SUCCESS = "SUCCESS";
+
+        bool sawConnected;
+        bool trolleyConnected;
 
         public Connections()
         {
@@ -31,14 +34,63 @@ namespace wpf_modbus_webview2
             DataContext = this;
         }
 
-        private void ConnectSaw_Click(object sender, RoutedEventArgs e)
+        void ConnectSaw_Click(object sender, RoutedEventArgs e)
         {
-  
+            SawOutcome.Content = string.Empty;
+            var addressText = SawAddress.Text;
+            var address = IPAddress.Parse(addressText);
+            using var bridge = new ModbusBridge();
+            var modbus = new Modbus(bridge);
+            modbus.Connect(address);
+
+            if(modbus.IsConnected() == false)
+            {
+                SawOutcome.Content = CONNECTION_FAILED;
+                SawOutcome.Background = Brushes.Red;
+                sawConnected = false;
+                return;
+            }
+
+            else
+            {
+                SawOutcome.Content = CONNECTION_SUCCESS;
+                SawOutcome.Background = Brushes.Green;
+                sawConnected = true;
+            }
+            EvaluateNextPage();
         }
 
-        private void ConnectTrolley_Click(object sender, RoutedEventArgs e)
+        void ConnectTrolley_Click(object sender, RoutedEventArgs e)
         {
+            TrolleyOutcome.Content = string.Empty;
+            var addressText = SawAddress.Text;
+            var address = IPAddress.Parse(addressText);
+            using var bridge = new ModbusBridge();
+            var modbus = new Modbus(bridge);
+            modbus.Connect(address);
 
+            if (modbus.IsConnected() == false)
+            {
+                TrolleyOutcome.Content = CONNECTION_FAILED;
+                TrolleyOutcome.Background = Brushes.Red;
+                trolleyConnected = false;
+            }
+
+            else
+            {
+                TrolleyOutcome.Content = CONNECTION_SUCCESS;
+                TrolleyOutcome.Background = Brushes.Green;
+                trolleyConnected = true;
+            }
+            EvaluateNextPage();
+        }
+
+        void EvaluateNextPage()
+        {
+            if(sawConnected && trolleyConnected)
+            {
+                //this.NavigationService.Navigate();
+            }
         }
     }
 }

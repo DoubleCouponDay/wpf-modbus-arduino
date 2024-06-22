@@ -19,6 +19,6 @@ namespace wpf_modbus_webview2
         public MainWindow()
         {
             InitializeComponent();
-        }
+        }  
     }
 }

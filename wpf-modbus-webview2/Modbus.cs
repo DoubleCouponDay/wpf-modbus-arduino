@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace wpf_modbus_webview2
 {
-    class Modbus : IModbusBridge, IDisposable
+    class Modbus : IModbusBridge
     {
         IModbusBridge bridge;
 
@@ -22,11 +22,6 @@ namespace wpf_modbus_webview2
         public void Connect(IPAddress address)
         {
             bridge.Connect(address);
-        }
-
-        public void Dispose()
-        {
-            bridge.Dispose();
         }
 
         public bool IsConnected()
@@ -55,7 +50,7 @@ namespace wpf_modbus_webview2
         }
     }
 
-    interface IModbusBridge : IDisposable
+    interface IModbusBridge
     {
         bool IsConnected();
         void Connect(IPAddress address);

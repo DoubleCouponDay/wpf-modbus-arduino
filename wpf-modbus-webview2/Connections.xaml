@@ -23,7 +23,7 @@
 
         <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="277,105,0,0" VerticalAlignment="Top" Click="ConnectSaw_Click" />
         <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="277,137,0,0" VerticalAlignment="Top" Click="ConnectTrolley_Click" />
-        <Label x:Name="SawConnectionOutcome"  Content="{Binding Path=SawOutcome}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="371,110,0,0" VerticalAlignment="Top" Width="228"/>
-        <Label x:Name="TrolleyConnectionOutcome" Content="{Binding Path=TrolleyOutcome}" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="371,142,0,0" VerticalAlignment="Top" Width="228"/>
+        <Label x:Name="SawOutcome" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="371,110,0,0" VerticalAlignment="Top" Width="228"/>
+        <Label x:Name="TrolleyOutcome" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="371,142,0,0" VerticalAlignment="Top" Width="228"/>
     </Grid>
 </Page>
