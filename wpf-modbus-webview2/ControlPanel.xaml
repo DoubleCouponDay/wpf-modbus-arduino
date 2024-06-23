@@ -9,6 +9,35 @@
       Title="ControlPanel">
 
     <Grid>
-        <Label>sup</Label>
+        <TabControl Margin="0,198,0,0">
+            <TabItem Header="Auto">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Semi">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="51*"/>
+                        <ColumnDefinition Width="346*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Manual">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="11*"/>
+                        <ColumnDefinition Width="146*"/>
+                        <ColumnDefinition Width="240*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Manual Control" HorizontalAlignment="Left" Margin="203,39,0,0" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    <Label Content="Trolley Position" HorizontalAlignment="Left" Margin="203,57,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.562,-0.305" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    <TextBox x:Name="ManualTrolleyPosition" HorizontalAlignment="Left" Margin="203,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.ColumnSpan="2" />
+                    <Label Content="mm" HorizontalAlignment="Left" Margin="29,79,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+                    <Label Content="Saw Angle" HorizontalAlignment="Left" Margin="70,61,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+                    <TextBox x:Name="ManualSawAngle" HorizontalAlignment="Left" Margin="70,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="2"/>
+                    <Label Content="Deg" HorizontalAlignment="Left" Margin="190,79,0,0" VerticalAlignment="Top" Grid.Column="2"/>
+                    <Border BorderBrush="Black" BorderThickness="1" Margin="187,61,249,112" Grid.Column="1" Grid.ColumnSpan="2"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Page>
