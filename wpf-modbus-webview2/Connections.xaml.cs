@@ -36,7 +36,7 @@ namespace wpf_modbus_webview2
         {
             InitializeComponent();
             DataContext = this;
-            controlPanelPage = new ControlPanel();
+            controlPanelPage = new ControlPanel(sawConnection, trolleyConnection);
         }
 
         void ConnectSaw_Click(object sender, RoutedEventArgs e)
@@ -103,12 +103,12 @@ namespace wpf_modbus_webview2
         {
             if(sawConnected && trolleyConnected)
             {
-                NextPage.Visibility = Visibility.Visible;
+                NextPageButton.Visibility = Visibility.Visible;
             }
 
             else
             {
-                NextPage.Visibility = Visibility.Hidden;
+                NextPageButton.Visibility = Visibility.Hidden;
             }
         }
 
