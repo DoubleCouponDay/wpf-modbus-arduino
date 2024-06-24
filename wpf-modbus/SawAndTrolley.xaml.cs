@@ -12,23 +12,28 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Windows.UI.ViewManagement;
 
 namespace wpf_modbus
 {
     /// <summary>
-    /// Interaction logic for ControlPanel.xaml
+    /// Interaction logic for SawAndTrolley.xaml
     /// </summary>
-    public partial class ControlPanel : Page
+    public partial class SawAndTrolley : UserControl
     {
-        Modbus sawConnection;
-        Modbus trolleyConnection;
+        public string Title {  
+            get {
+                return ComponentsTitle.Text;
+            }
+            set {
+                ComponentsTitle.Text = value;
+            } 
+        }
 
-        public ControlPanel(Modbus inputSawConnection, Modbus inputTrolleyConnection)
+        public SawAndTrolley()
         {
             InitializeComponent();
             DataContext = this;
-            sawConnection = inputSawConnection;
-            trolleyConnection = inputTrolleyConnection;
         }
     }
 }

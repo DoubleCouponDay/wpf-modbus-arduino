@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wpf_modbus_webview2
+namespace wpf_modbus
 {
     public class Modbus : IModbusBridge
     {

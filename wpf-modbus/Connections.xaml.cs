@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace wpf_modbus_webview2
+namespace wpf_modbus
 {
     /// <summary>
     /// Interaction logic for Connections.xaml

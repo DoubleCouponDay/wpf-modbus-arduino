@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Windows.Services.Maps;
 
-namespace wpf_modbus_webview2
+namespace wpf_modbus
 {
     public class Helpers
     {

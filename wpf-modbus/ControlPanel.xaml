@@ -4,24 +4,48 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:wpf_modbus"
-      xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" x:Class="wpf_modbus.ControlPanel"
       mc:Ignorable="d"
       Title="Control Panel" Width="800" Height="600">
 
     <Grid>
+        <Grid Width="300" Height="100" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Label Content="Bench" Width="50" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <Border BorderBrush="Black" BorderThickness="1" Margin="0,20,0,0" />
+            <Label Content="Trolley Position" Margin="0,20,0,0" />
+            <TextBox Text="500.0" />
+        </Grid>
+        
+        <Grid Width="200" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="250,130,0,0">
+            <Button Content="x1" Margin="10,0,0,0" Width="50" Height="50" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <Button Content="Up" Margin="70,-60,0,0" Width="50" Height="50" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Blue" Foreground="White" />
+            <Button Content="Down" Margin="70,60,0,0" Width="50" Height="50" VerticalAlignment="Center" HorizontalAlignment="Left" Background="Blue" Foreground="White" />
+            <Button Content="Folder"  Width="50" Height="50" VerticalAlignment="Top" HorizontalAlignment="Right" />
+        </Grid>
+        
         <Grid Margin="0,200,0,0" Width="175" Height="70" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Border BorderBrush="Black" BorderThickness="1" />
-            <Button Content="Enable" Margin="100,10,0,0" Background="Green" Width="50" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            <Button Content="Disable" Margin="100,40,0,0" Background="Red" Width="50" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <Button Content="Enable" Margin="100,10,0,0" Background="Green" Foreground="White" Width="50" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <Button Content="Disable" Margin="100,40,0,0" Background="Red" Foreground="White" Width="50" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" />
             <Canvas Margin="20,7.5,0,0" Width="25" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Black">
-                <Canvas x:Name="EnablingLight" Background="Yellow" Height="15" Width="15" Canvas.Left="5" Canvas.Top="5" />
+                <Canvas x:Name="EnablingLight" Background="Yellow" Height="15" Width="15" Canvas.Left="5" Canvas.Top="5" Visibility="Hidden" />
             </Canvas>
             <Canvas Margin="20,37.5,0,0" Width="25" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Black">
                 <Canvas x:Name="DisablingLight" Background="Yellow" Height="15" Width="15" Canvas.Left="5" Canvas.Top="5" />
             </Canvas>
         </Grid>
 
-        <TabControl Margin="0,410,0,0">
+        <TabControl Width="Auto" Height="300" VerticalAlignment="Bottom">
+            <TabItem Header="Manual">
+                <Grid Background="#FFE5E5E5">
+                    <Button  Width="160" Height="40" Content="Advanced Manual Controls" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,40,0,0" />
+                    <local:SawAndTrolley />
+                    <Button Width="80" Height="40" Content="90 Deg" VerticalAlignment="Top" Margin="80,110,0,0" Background="Green" Foreground="White" />
+                    <Button Width="50" Height="50" Content="Up" VerticalAlignment="Bottom"  HorizontalAlignment="Left" Margin="10,0,0,70" />
+                    <Button Width="100" Height="50" Content="Start Member" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="70,0,0,70" Background="Green"  Foreground="White" />
+                    <Button Width="50" Height="50" Content="Down" VerticalAlignment="Bottom"  HorizontalAlignment="Left" Margin="10,0,0,10" />
+                    <Button Width="100" Height="50" Content="Toggle Done" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="70,0,0,10" Background="Blue" Foreground="White" />
+                </Grid>
+            </TabItem>
             <TabItem Header="Auto">
                 <Grid Background="#FFE5E5E5">
                     
@@ -29,20 +53,6 @@
             </TabItem>
             <TabItem Header="Semi">
                 <Grid Background="#FFE5E5E5">
-                </Grid>
-            </TabItem>
-            <TabItem Header="Manual">
-                <Grid Background="#FFE5E5E5">
-                    <Grid Background="#FFE5E5E5" Width="358" Height="80">
-                        <Border BorderBrush="Black" BorderThickness="1" Width="358" Height="80" />
-                        <Label Content="Manual Control" />
-                        <Label Content="Trolley Position" Margin="180,10,0,0" Width="100" Height="30" HorizontalAlignment="Left" />
-                        <TextBox x:Name="ManualTrolleyPosition" Margin="120,40,0,0" TextWrapping="Wrap" Width="120" Height="20" />
-                        <Label Content="mm" Margin="-70,40,0,0" Width="30" Height="30" />
-                        <Label Content="Saw Angle" Margin="10,10,0,0" Width="100" Height="30" HorizontalAlignment="Left" />
-                        <TextBox x:Name="ManualSawAngle" Margin="-220,40,0,0" TextWrapping="Wrap" Width="120" Height="20" />
-                        <Label Content="Deg" Margin="280,40,0,0" Width="40" Height="30" />
-                    </Grid>
                 </Grid>
             </TabItem>
         </TabControl>
