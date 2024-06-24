@@ -20,9 +20,15 @@ namespace wpf_modbus_webview2
     /// </summary>
     public partial class ControlPanel : Page
     {
-        public ControlPanel()
+        Modbus sawConnection;
+        Modbus trolleyConnection;
+
+        public ControlPanel(Modbus inputSawConnection, Modbus inputTrolleyConnection)
         {
             InitializeComponent();
+            DataContext = this;
+            sawConnection = inputSawConnection;
+            trolleyConnection = inputTrolleyConnection;
         }
     }
 }
