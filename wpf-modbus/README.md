@@ -1,4 +1,4 @@
-# wpf-modbus-webview2
+# wpf-modbus
 Example application of an HMI for servo motor automation
 
 # Links
