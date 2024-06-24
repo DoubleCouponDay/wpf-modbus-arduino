@@ -64,7 +64,7 @@ namespace wpf_modbus
             catch (Exception e)
             {
                 var message = $"Error: {e.Message}";
-                SetResult(resultMessage, Brushes.Red, message, ref resultFlag, false);
+                SetResult(resultMessage, Brushes.Red, CONNECTION_FAILED, ref resultFlag, false);
                 EvaluateNextPage();
                 Helpers.Get.PopupMessage(message);
                 return;
