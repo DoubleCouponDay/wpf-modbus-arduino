@@ -5,6 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:wpf_modbus"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" Source="Connections.xaml">
+        Title="MainWindow" Height="600" Width="800" Source="Connections.xaml" MinWidth="800" MinHeight="600">
 
 </NavigationWindow>
