@@ -63,6 +63,8 @@ namespace wpf_modbus_webview2
 
             catch(Exception e) {
                 var message = $"Error: {e.Message}";
+                SetResult(resultMessage, Brushes.Red, message, ref resultFlag, false);
+                EvaluateNextPage();
                 Helpers.Get.PopupMessage(message);
                 return;
             }
@@ -81,17 +83,20 @@ namespace wpf_modbus_webview2
 
             if(connection.IsConnected() == false)
             {
-                resultMessage.Content = CONNECTION_FAILED;
-                resultMessage.Background = Brushes.Red;
-                resultFlag = false;
+                SetResult(resultMessage, Brushes.Red, CONNECTION_FAILED, ref resultFlag, false);
             }
 
             else
             {
-                resultMessage.Content = CONNECTION_SUCCESS;
-                resultMessage.Background = Brushes.Green;
-                resultFlag = true;
+                SetResult(resultMessage, Brushes.Green, CONNECTION_SUCCESS, ref resultFlag, true);
             }
+        }
+
+        void SetResult(Label label, SolidColorBrush colour, string content, ref bool flag, bool value)
+        {
+            label.Content = content;
+            label.Background = colour;
+            flag = value;
         }
 
         void EvaluateNextPage()
