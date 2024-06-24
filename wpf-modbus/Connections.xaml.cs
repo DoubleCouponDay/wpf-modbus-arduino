@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -57,11 +56,13 @@ namespace wpf_modbus
             var addressText = input.Text;
             IPAddress address;
 
-            try {
+            try
+            {
                 address = IPAddress.Parse(addressText);
             }
 
-            catch(Exception e) {
+            catch (Exception e)
+            {
                 var message = $"Error: {e.Message}";
                 SetResult(resultMessage, Brushes.Red, message, ref resultFlag, false);
                 EvaluateNextPage();
@@ -69,7 +70,7 @@ namespace wpf_modbus
                 return;
             }
 
-            if(connection == null)
+            if (connection == null)
             {
                 var bridge = new JustWorksBridge(0, 0);
                 connection = new Modbus(bridge);
@@ -81,7 +82,7 @@ namespace wpf_modbus
                 connection.Connect(address);
             }
 
-            if(connection.IsConnected() == false)
+            if (connection.IsConnected() == false)
             {
                 SetResult(resultMessage, Brushes.Red, CONNECTION_FAILED, ref resultFlag, false);
             }
@@ -101,7 +102,7 @@ namespace wpf_modbus
 
         void EvaluateNextPage()
         {
-            if(sawConnected && trolleyConnected)
+            if (sawConnected && trolleyConnected)
             {
                 NextPageButton.Visibility = Visibility.Visible;
             }

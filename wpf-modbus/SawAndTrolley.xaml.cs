@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Windows.UI.ViewManagement;
 
 namespace wpf_modbus
 {
@@ -21,13 +20,19 @@ namespace wpf_modbus
     /// </summary>
     public partial class SawAndTrolley : UserControl
     {
-        public string Title {  
-            get {
-                return ComponentsTitle.Text;
+        public string ComponentTitle
+        {
+            get
+            {
+                return (string)ComponentsTitle.Content;
             }
-            set {
-                ComponentsTitle.Text = value;
-            } 
+            set
+            {
+                if (value is string)
+                {
+                    ComponentsTitle.Content = value;
+                }
+            }
         }
 
         public SawAndTrolley()

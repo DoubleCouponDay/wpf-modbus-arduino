@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace wpf_modbus_webview2
+namespace wpf_modbus
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -19,6 +19,6 @@ namespace wpf_modbus
         public MainWindow()
         {
             InitializeComponent();
-        }  
+        }
     }
 }
