@@ -28,7 +28,7 @@ namespace wpf_modbus_webview2
         bool sawConnected;
         bool trolleyConnected;
 
-        ControlPanel nextPage;
+        ControlPanel controlPanelPage;
         Modbus sawConnection;
         Modbus trolleyConnection;
 
@@ -36,7 +36,7 @@ namespace wpf_modbus_webview2
         {
             InitializeComponent();
             DataContext = this;
-            nextPage = new ControlPanel();
+            controlPanelPage = new ControlPanel();
         }
 
         void ConnectSaw_Click(object sender, RoutedEventArgs e)
@@ -112,9 +112,9 @@ namespace wpf_modbus_webview2
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ControlPanel_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(nextPage);
+            NavigationService.Navigate(controlPanelPage);
         }
     }
 }
