@@ -23,8 +23,8 @@
 
         <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="277,105,0,0" VerticalAlignment="Top" Click="ConnectSaw_Click" />
         <Button Content="Connect" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="277,137,0,0" VerticalAlignment="Top" Click="ConnectTrolley_Click" />
-        <Label x:Name="SawOutcome" Background="red" Width="228" Height="30" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="371,100,0,0" VerticalAlignment="Top" />
-        <Label x:Name="TrolleyOutcome" Background="red" Width="228" Height="30" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="371,132,0,0" VerticalAlignment="Top" />
+        <Label x:Name="SawOutcome" Width="228" Height="30" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="371,100,0,0" VerticalAlignment="Top" />
+        <Label x:Name="TrolleyOutcome" Width="228" Height="30" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="371,132,0,0" VerticalAlignment="Top" />
         <Button x:Name="NextPageButton" Content="Go to Control Panel" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="150,210,0,0" VerticalAlignment="Top" Visibility="Hidden" Click="ControlPanel_Click" />
     </Grid>
 </Page>
