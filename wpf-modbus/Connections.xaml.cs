@@ -36,6 +36,10 @@ namespace wpf_modbus
             InitializeComponent();
             DataContext = this;
             controlPanelPage = new ControlPanel(sawConnection, trolleyConnection);
+            var prodBridge = new ModbusBridge();
+            var mockBridge = new JustWorksBridge(0, 0);
+            sawConnection = new Modbus(prodBridge);
+            trolleyConnection = new Modbus(mockBridge);
         }
 
         void ConnectSaw_Click(object sender, RoutedEventArgs e)
@@ -53,34 +57,8 @@ namespace wpf_modbus
         void ConnectToAddress(ref Modbus connection, Label resultMessage, TextBox input, ref bool resultFlag)
         {
             resultMessage.Content = string.Empty;
-            var addressText = input.Text;
-            IPAddress address;
-
-            try
-            {
-                address = IPAddress.Parse(addressText);
-            }
-
-            catch (Exception e)
-            {
-                var message = $"Error: {e.Message}";
-                SetResult(resultMessage, Brushes.Red, CONNECTION_FAILED, ref resultFlag, false);
-                EvaluateNextPage();
-                Helpers.Get.PopupMessage(message);
-                return;
-            }
-
-            if (connection == null)
-            {
-                var bridge = new JustWorksBridge(0, 0);
-                connection = new Modbus(bridge);
-                connection.Connect(address);
-            }
-
-            else
-            {
-                connection.Connect(address);
-            }
+            var portText = input.Text;
+            connection.Connect(portText);
 
             if (connection.IsConnected() == false)
             {

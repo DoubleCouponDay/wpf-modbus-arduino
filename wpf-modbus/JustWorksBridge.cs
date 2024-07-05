@@ -19,7 +19,7 @@ namespace wpf_modbus
             registers = [inputRegister];
         }
 
-        public void Connect(IPAddress address)
+        public void Connect(string address)
         {
 
         }

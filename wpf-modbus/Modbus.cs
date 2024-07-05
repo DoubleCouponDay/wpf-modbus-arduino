@@ -17,9 +17,9 @@ namespace wpf_modbus
             bridge = inputBridge;
         }
 
-        public void Connect(IPAddress address)
+        public void Connect(string port)
         {
-            bridge.Connect(address);
+            bridge.Connect(port);
         }
 
         public bool IsConnected()
@@ -51,7 +51,7 @@ namespace wpf_modbus
     public interface IModbusBridge
     {
         bool IsConnected();
-        void Connect(IPAddress address);
+        void Connect(string port);
         Span<byte> ReadCoils(int unitIdentifier, int startingAddress, int quantity);
         void WriteSingleCoil(int unitIdentifier, int startingAddress, bool value);
         Span<T> ReadHoldingRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged;
@@ -63,13 +63,13 @@ namespace wpf_modbus
     /// </summary>
     class ModbusBridge : IModbusBridge, IDisposable
     {
-        public IPAddress Address { get; private set; } = IPAddress.None;
-        ModbusTcpClient client;
+        public string Port { get; private set; } = string.Empty;
+        ModbusRtuClient client;
 
 
         public ModbusBridge()
         {
-            client = new ModbusTcpClient();
+            client = new ModbusRtuClient();
         }
 
         public bool IsConnected()
@@ -77,10 +77,10 @@ namespace wpf_modbus
             return client.IsConnected;
         }
 
-        public void Connect(IPAddress address)
+        public void Connect(string port)
         {
-            client.Connect(address);
-            Address = address;
+            client.Connect(port);
+            Port = port;
         }
 
         private void AssertConnected()
