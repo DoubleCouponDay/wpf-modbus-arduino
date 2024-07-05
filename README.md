@@ -18,3 +18,5 @@ Wifi is relayed through the ESP8266. Program the ESP8266 using the Arduino IDE w
 - [Arduino PLC Physical Addressing](https://autonomylogic.com/docs/2-4-physical-addressing/)
 
 - [Arduino PLC Modbus Addressing](https://autonomylogic.com/docs/2-5-modbus-addressing/)
+
+- [Open PLC Tutorials](https://www.youtube.com/@openplc/videos)
