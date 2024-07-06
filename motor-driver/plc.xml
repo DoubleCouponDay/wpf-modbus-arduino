@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
   <fileHeader companyName="Unknown" productName="motor_driver" productVersion="1" creationDateTime="2024-07-05T11:44:58"/>
-  <contentHeader name="motor_driver" modificationDateTime="2024-07-05T17:28:18">
+  <contentHeader name="motor_driver" modificationDateTime="2024-07-06T19:15:28">
     <coordinateInfo>
       <fbd>
         <scaling x="10" y="10"/>
@@ -27,21 +27,31 @@
             </variable>
           </localVars>
           <localVars>
-            <variable name="on_led_timer">
+            <variable name="on_timer">
               <type>
                 <derived name="TON"/>
               </type>
             </variable>
-            <variable name="off_led_timer">
+            <variable name="off_timer">
               <type>
                 <derived name="TOF"/>
               </type>
             </variable>
           </localVars>
           <localVars>
-            <variable name="servo_angle" address="%QW1">
+            <variable name="servo_pwm" address="%QW1">
               <type>
-                <REAL/>
+                <INT/>
+              </type>
+              <initialValue>
+                <simpleValue value="0"/>
+              </initialValue>
+            </variable>
+          </localVars>
+          <localVars>
+            <variable name="servo_angle">
+              <type>
+                <INT/>
               </type>
               <initialValue>
                 <simpleValue value="0"/>
@@ -51,14 +61,23 @@
         </interface>
         <body>
           <ST>
-            <xhtml:p><![CDATA[(* Blink the builtin LED *)
-on_led_timer.IN := NOT led;
-on_led_timer(IN := NOT(led), PT := T#500ms);
+            <xhtml:p><![CDATA[(* validate the servo angle *)
+IF(servo_angle < 0) THEN
+  servo_angle := 0;
 
-off_led_timer.IN := on_led_timer.Q;
-off_led_timer(IN := on_led_timer.Q, PT := T#500ms);
+ELSIF(servo_angle > 180) THEN
+  servo_angle := 180;
 
-led := off_led_timer.Q;
+END_IF;
+
+(* control the servo *)
+real_angle := INT_TO_REAL(servo_angle);
+servo_pwm := REAL_TO_INT(255.0 / 180.0 *);
+
+(* Blink the builtin LED *)
+on_timer(IN := NOT(off_timer.Q), PT := T#500ms);
+off_timer(IN := on_timer.Q, PT := T#500ms);
+led := off_timer.Q;
 ]]></xhtml:p>
           </ST>
         </body>
@@ -69,7 +88,7 @@ led := off_led_timer.Q;
     <configurations>
       <configuration name="Config0">
         <resource name="Res0">
-          <task name="task0" priority="0" interval="T#20ms">
+          <task name="task0" priority="0" interval="T#2ms">
             <pouInstance name="instance0" typeName="motor_driver"/>
           </task>
         </resource>
