@@ -11,7 +11,7 @@ Wifi is relayed through the ESP8266. Program the ESP8266 using the Arduino IDE w
 
 - Install the esp8266 Board Manager.
 
-## Calculations
+## Calculations (based on Arduino Servo Library)
 
     min pulse width = 544
     max pulse width = 2400
@@ -26,24 +26,22 @@ Wifi is relayed through the ESP8266. Program the ESP8266 using the Arduino IDE w
         eg: 90 deg
 
     servo min < pulse width < servo max
-    
-    pulse width = (servo max - servo min) / (180 - 0) * servo angle + servo min
-    => -4416
-
-    pulse width = pulse width - 2
-    => -4418
 
     clock cycles per microsecond = 16 * 10^6 / 1 * 10^6
     => 16
+    
+    //on time
+    on pulse width = (servo max - servo min) / (180 - 0) * servo angle + servo min
+    => -4416
 
-    frequency = clock cycles per microsecond * pulse width / 8
+    on pulse width = on pulse width - 2
+    => -4418
+
+    on frequency = clock cycles per microsecond * on pulse width / 8
     => -8836
 
-    period = abs(1 / 8836) //I used abs because the negative period didn't make sense to me
-    => 11.317338 * 10^-6
-
-    on time = off time = period / 2
-    => 5.65866 * 10^-6
+    on time = abs(1 / on frequency) //I used abs because the negative period didn't make sense to me
+    => 113.17338 * 10^-6
 
 ## References
 
@@ -57,3 +55,4 @@ Wifi is relayed through the ESP8266. Program the ESP8266 using the Arduino IDE w
 
 - [frequency equation](https://en.wikipedia.org/wiki/Frequency)
 
+- [Arduino Servo Library](https://github.com/arduino-libraries/Servo)
