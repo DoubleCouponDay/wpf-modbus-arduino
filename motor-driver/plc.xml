@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
   <fileHeader companyName="Unknown" productName="motor_driver" productVersion="1" creationDateTime="2024-07-05T11:44:58"/>
-  <contentHeader name="motor_driver" modificationDateTime="2024-07-07T19:21:57">
+  <contentHeader name="motor_driver" modificationDateTime="2024-07-07T20:10:20">
     <coordinateInfo>
       <fbd>
         <scaling x="10" y="10"/>
@@ -76,7 +76,7 @@
                 <TIME/>
               </type>
               <initialValue>
-                <simpleValue value="T#2ms"/>
+                <simpleValue value="T#10ms"/>
               </initialValue>
             </variable>
             <variable name="off_PT">
@@ -84,7 +84,7 @@
                 <TIME/>
               </type>
               <initialValue>
-                <simpleValue value="T#2ms"/>
+                <simpleValue value="T#10ms"/>
               </initialValue>
             </variable>
           </localVars>
@@ -112,17 +112,23 @@ END_IF;
 
 (* control the servo *)
 real_angle := INT_TO_REAL(input_angle);
-duty_cycle := REAL_TO_INT(100.0 / 180.0 * real_angle);
+duty_cycle := REAL_TO_UINT(100.0 / 180.0 * real_angle);
 
+on_PT := GET_ON_TIME(duty_cycle);
 
+output_on_timer(IN := NOT(output_off_timer.Q), PT := on_PT);
+output_off_timer(IN := output_on_timer.Q, PT := off_PT);
 
-output_on_timer(IN := NOT(led_off_timer.Q), PT := on_PT);
-output_off_timer(IN := led_on_timer.Q, PT := off_PT);
+IF output_on_timer.Q THEN
+  output_pin := 65535;
+  
+ELSE
+  output_pin := 0;
+
+END_IF;
 
 (* Blink the builtin LED *)
-led_on_timer(IN := NOT(led_off_timer.Q), PT := T#500ms);
-led_off_timer(IN := led_on_timer.Q, PT := T#500ms);
-led := led_off_timer.Q;
+led := output_on_timer.Q;
 ]]></xhtml:p>
           </ST>
         </body>
@@ -130,15 +136,17 @@ led := led_off_timer.Q;
       <pou name="GET_ON_TIME" pouType="function">
         <interface>
           <returnType>
-            <BOOL/>
+            <TIME/>
           </returnType>
-          <localVars>
+          <inputVars>
             <variable name="duty_cycle">
               <type>
                 <UINT/>
               </type>
             </variable>
-            <variable name="output_time">
+          </inputVars>
+          <localVars>
+            <variable name="local_time">
               <type>
                 <TIME/>
               </type>
@@ -147,517 +155,412 @@ led := led_off_timer.Q;
         </interface>
         <body>
           <ST>
-            <xhtml:p><![CDATA[IF (duty_cycle = 0) THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 1 THEN
-  output_time := T#2.5ms;
-  
-ELSIF duty_cycle = 2 THEN
-  output_time := T#4ms;
-  
-ELSIF duty_cycle = 3 THEN
-  output_time := T#6ms;
-  
-ELSIF duty_cycle = 4 THEN
-  output_time := T#8ms;
-  
-ELSIF duty_cycle = 5 THEN
-  output_time := T#10ms;
-  
-ELSIF duty_cycle = 6 THEN
-  output_time := T#12ms;
-  
-ELSIF duty_cycle = 7 THEN
-  output_time := T#14ms;
-  
-ELSIF duty_cycle = 8 THEN
-  output_time := T#16ms;
-    
-ELSIF duty_cycle = 9 THEN
-  output_time := T#18ms;
-  
-ELSIF duty_cycle = 10 THEN
-
-  output_time := T#20ms;
-  
-
-ELSIF duty_cycle = 11 THEN
-
-  output_time := T#22ms;
-
-  
-
-ELSIF duty_cycle = 12 THEN
-
-  output_time := T#24ms;
-
-  
-
-ELSIF duty_cycle = 13 THEN
-
-  output_time := T#26ms;
-
-  
-
-ELSIF duty_cycle = 14 THEN
-
-  output_time := T#28ms;
-
-  
-
-ELSIF duty_cycle = 15 THEN
-
-  output_time := T#30ms;
-
-  
-
-ELSIF duty_cycle = 16 THEN
-
-  output_time := T#32ms;
-
-  
-
-ELSIF duty_cycle = 17 THEN
-
-  output_time := T#34ms;
-
-  
-
-ELSIF duty_cycle = 18 THEN
-
-  output_time := T#36ms;
-
-    
-
-ELSIF duty_cycle = 19 THEN
-
-  output_time := T#38ms;
-
-  
-
-ELSIF duty_cycle = 20 THEN
-
-  output_time := T#40ms;
-  
-
-ELSIF duty_cycle = 21 THEN
-
-  output_time := T#42ms;
-
-  
-
-ELSIF duty_cycle = 22 THEN
-
-  output_time := T#44ms;
-
-  
-
-ELSIF duty_cycle = 23 THEN
-
-  output_time := T#46ms;
-
-  
-
-ELSIF duty_cycle = 24 THEN
-
-  output_time := T#48ms;
-
-  
-
-ELSIF duty_cycle = 25 THEN
-
-  output_time := T#50ms;
-
-  
-
-ELSIF duty_cycle = 26 THEN
-
-  output_time := T#52ms;
-
-  
-
-ELSIF duty_cycle = 27 THEN
-
-  output_time := T#54ms;
-
-  
-
-ELSIF duty_cycle = 28 THEN
-
-  output_time := T#56ms;
-
-    
-
-ELSIF duty_cycle = 29 THEN
-
-  output_time := T#58ms;
-
-  
-
-ELSIF duty_cycle = 30 THEN
-
-  output_time := T#60ms;
-  
-
-ELSIF duty_cycle = 31 THEN
-
-  output_time := T#62ms;
-
-  
-
-ELSIF duty_cycle = 32 THEN
-
-  output_time := T#64ms;
-
-  
-
-ELSIF duty_cycle = 33 THEN
-
-  output_time := T#66ms;
-
-  
-
-ELSIF duty_cycle = 34 THEN
-
-  output_time := T#68ms;
-
-  
-
-ELSIF duty_cycle = 35 THEN
-
-  output_time := T#70ms;
-
-  
-
-ELSIF duty_cycle = 36 THEN
-
-  output_time := T#72ms;
-
-  
-
-ELSIF duty_cycle = 37 THEN
-
-  output_time := T#74ms;
-
-  
-
-ELSIF duty_cycle = 38 THEN
-
-  output_time := T#76ms;
-
-    
-
-ELSIF duty_cycle = 39 THEN
-
-  output_time := T#78ms;
-
-  
-
-ELSIF duty_cycle = 40 THEN
-
-  output_time := T#80ms;
-
-
-ELSIF duty_cycle = 41 THEN
-
-  output_time := T#82ms;
-
-  
-
-ELSIF duty_cycle = 42 THEN
-
-  output_time := T#84ms;
-
-  
-
-ELSIF duty_cycle = 43 THEN
-
-  output_time := T#86ms;
-
-  
-
-ELSIF duty_cycle = 44 THEN
-
-  output_time := T#88ms;
-
-  
-
-ELSIF duty_cycle = 45 THEN
-
-  output_time := T#90ms;
-
-  
-
-ELSIF duty_cycle = 46 THEN
-
-  output_time := T#92ms;
-
-  
-
-ELSIF duty_cycle = 47 THEN
-
-  output_time := T#94ms;
-
-  
-
-ELSIF duty_cycle = 48 THEN
-
-  output_time := T#96ms;
-
-    
-
-ELSIF duty_cycle = 49 THEN
-
-  output_time := T#98ms;
-
-  
-
-ELSIF duty_cycle = 50 THEN
-
-  output_time := T#100ms;
-  
-
-ELSIF duty_cycle = 51 THEN
-
-  output_time := T#102ms;
-
-  
-
-ELSIF duty_cycle = 52 THEN
-
-  output_time := T#104ms;
-
-  
-
-ELSIF duty_cycle = 53 THEN
-
-  output_time := T#106ms;
-
-  
-
-ELSIF duty_cycle = 54 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 55 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 56 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 57 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 58 THEN
-
-  output_time := T#0ms;
-
-    
-
-ELSIF duty_cycle = 59 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 60 THEN
-
-  output_time := T#0ms;
-
-
-ELSIF duty_cycle = 61 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 62 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 63 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 64 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 65 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 66 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 67 THEN
-
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 68 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 69 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 70 THEN
-  output_time := T#0ms;
-  
-
-ELSIF duty_cycle = 71 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 72 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 73 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 74 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 75 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 76 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 77 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 78 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 79 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 80 THEN
-  output_time := T#0ms;
-  
-
-ELSIF duty_cycle = 81 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 82 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 83 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 84 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 85 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 86 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 87 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 88 THEN
-  output_time := T#0ms;
-
-    
-
-ELSIF duty_cycle = 89 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 90 THEN
-  output_time := T#0ms;
-  
-
-ELSIF duty_cycle = 91 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 92 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 93 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 94 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 95 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 96 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 97 THEN
-  output_time := T#0ms;
-
-  
-
-ELSIF duty_cycle = 98 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 99 THEN
-  output_time := T#0ms;
-
-ELSIF duty_cycle = 100 THEN
-  output_time := T#0ms;
-
-END_IF;]]></xhtml:p>
+            <xhtml:p><![CDATA[IF (duty_cycle = 0) THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 1 THEN
+  GET_ON_TIME := T#2.5ms;
+	RETURN;
+  
+ELSIF duty_cycle = 2 THEN
+  GET_ON_TIME := T#4ms;
+  RETURN;
+  
+ELSIF duty_cycle = 3 THEN
+  GET_ON_TIME := T#6ms;
+  RETURN;
+  
+ELSIF duty_cycle = 4 THEN
+  GET_ON_TIME := T#8ms;
+  RETURN;
+  
+ELSIF duty_cycle = 5 THEN
+  GET_ON_TIME := T#10ms;
+  RETURN;
+  
+ELSIF duty_cycle = 6 THEN
+  GET_ON_TIME := T#12ms;
+  RETURN;
+
+ELSIF duty_cycle = 7 THEN
+  GET_ON_TIME := T#14ms;
+  RETURN;
+  
+ELSIF duty_cycle = 8 THEN
+  GET_ON_TIME := T#16ms;
+  RETURN;
+    
+ELSIF duty_cycle = 9 THEN
+  GET_ON_TIME := T#18ms;
+  RETURN;
+  
+ELSIF duty_cycle = 10 THEN
+  GET_ON_TIME := T#20ms;
+  RETURN;
+
+ELSIF duty_cycle = 11 THEN
+  GET_ON_TIME := T#22ms;
+  RETURN;
+
+ELSIF duty_cycle = 12 THEN
+  GET_ON_TIME := T#24ms;
+  RETURN;
+
+ELSIF duty_cycle = 13 THEN
+  GET_ON_TIME := T#26ms;
+  RETURN;
+
+ELSIF duty_cycle = 14 THEN
+  GET_ON_TIME := T#28ms;
+  RETURN;
+
+ELSIF duty_cycle = 15 THEN
+  GET_ON_TIME := T#30ms;
+  RETURN;
+
+ELSIF duty_cycle = 16 THEN
+  GET_ON_TIME := T#32ms;
+  RETURN;
+
+ELSIF duty_cycle = 17 THEN
+  GET_ON_TIME := T#34ms;
+  RETURN;
+
+ELSIF duty_cycle = 18 THEN
+  GET_ON_TIME := T#36ms;
+  RETURN;
+
+ELSIF duty_cycle = 19 THEN
+  GET_ON_TIME := T#38ms;
+  RETURN;
+
+ELSIF duty_cycle = 20 THEN
+  GET_ON_TIME := T#40ms;
+  RETURN;
+
+ELSIF duty_cycle = 21 THEN
+  GET_ON_TIME := T#42ms;
+  RETURN;
+
+ELSIF duty_cycle = 22 THEN
+  GET_ON_TIME := T#44ms;
+  RETURN;
+
+ELSIF duty_cycle = 23 THEN
+  GET_ON_TIME := T#46ms;
+  RETURN;
+
+ELSIF duty_cycle = 24 THEN
+  GET_ON_TIME := T#48ms;
+  RETURN;
+
+ELSIF duty_cycle = 25 THEN
+  GET_ON_TIME := T#50ms;
+  RETURN;
+
+ELSIF duty_cycle = 26 THEN
+  GET_ON_TIME := T#52ms;
+  RETURN;
+
+ELSIF duty_cycle = 27 THEN
+  GET_ON_TIME := T#54ms;
+  RETURN;
+
+ELSIF duty_cycle = 28 THEN
+  GET_ON_TIME := T#56ms;
+  RETURN;
+
+ELSIF duty_cycle = 29 THEN
+  GET_ON_TIME := T#58ms;
+  RETURN;
+
+ELSIF duty_cycle = 30 THEN
+  GET_ON_TIME := T#60ms;
+  RETURN;
+
+ELSIF duty_cycle = 31 THEN
+  GET_ON_TIME := T#62ms;
+  RETURN;
+
+ELSIF duty_cycle = 32 THEN
+  GET_ON_TIME := T#64ms;
+  RETURN;
+
+ELSIF duty_cycle = 33 THEN
+  GET_ON_TIME := T#66ms;
+  RETURN;
+
+ELSIF duty_cycle = 34 THEN
+  GET_ON_TIME := T#68ms;
+  RETURN;
+
+ELSIF duty_cycle = 35 THEN
+  GET_ON_TIME := T#70ms;
+  RETURN;
+
+ELSIF duty_cycle = 36 THEN
+  GET_ON_TIME := T#72ms;
+  RETURN;
+
+ELSIF duty_cycle = 37 THEN
+  GET_ON_TIME := T#74ms;
+  RETURN;
+
+ELSIF duty_cycle = 38 THEN
+  GET_ON_TIME := T#76ms;
+  RETURN;
+
+ELSIF duty_cycle = 39 THEN
+  GET_ON_TIME := T#78ms;
+  RETURN;
+
+ELSIF duty_cycle = 40 THEN
+  GET_ON_TIME := T#80ms;
+  RETURN;
+
+ELSIF duty_cycle = 41 THEN
+  GET_ON_TIME := T#82ms;
+  RETURN;
+
+ELSIF duty_cycle = 42 THEN
+  GET_ON_TIME := T#84ms;
+  RETURN;
+
+ELSIF duty_cycle = 43 THEN
+  GET_ON_TIME := T#86ms;
+  RETURN;
+
+ELSIF duty_cycle = 44 THEN
+  GET_ON_TIME := T#88ms;
+  RETURN;
+
+ELSIF duty_cycle = 45 THEN
+  GET_ON_TIME := T#90ms;
+  RETURN;
+
+ELSIF duty_cycle = 46 THEN
+  GET_ON_TIME := T#92ms;
+  RETURN;
+
+ELSIF duty_cycle = 47 THEN
+  GET_ON_TIME := T#94ms;
+  RETURN;
+
+ELSIF duty_cycle = 48 THEN
+  GET_ON_TIME := T#96ms;
+  RETURN;
+
+ELSIF duty_cycle = 49 THEN
+  GET_ON_TIME := T#98ms;
+  RETURN;
+
+ELSIF duty_cycle = 50 THEN
+  GET_ON_TIME := T#100ms;
+  RETURN;
+
+ELSIF duty_cycle = 51 THEN
+  GET_ON_TIME := T#102ms;
+  RETURN;
+
+ELSIF duty_cycle = 52 THEN
+  GET_ON_TIME := T#104ms;
+  RETURN;
+
+ELSIF duty_cycle = 53 THEN
+  GET_ON_TIME := T#106ms;
+  RETURN;
+
+ELSIF duty_cycle = 54 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 55 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 56 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 57 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+  
+ELSIF duty_cycle = 58 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 59 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 60 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 61 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 62 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 63 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 64 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 65 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 66 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 67 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 68 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 69 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 70 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 71 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 72 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 73 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 74 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 75 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 76 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 77 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 78 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 79 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 80 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 81 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 82 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 83 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 84 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 85 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 86 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 87 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+  
+ELSIF duty_cycle = 88 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 89 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 90 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+  
+ELSIF duty_cycle = 91 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 92 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 93 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 94 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 95 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 96 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 97 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 98 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 99 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+ELSIF duty_cycle = 100 THEN
+  GET_ON_TIME := T#0ms;
+  RETURN;
+
+END_IF;
+]]></xhtml:p>
           </ST>
         </body>
       </pou>
