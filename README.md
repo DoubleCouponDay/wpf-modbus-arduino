@@ -56,3 +56,5 @@ Wifi is relayed through the ESP8266. Program the ESP8266 using the Arduino IDE w
 - [frequency equation](https://en.wikipedia.org/wiki/Frequency)
 
 - [Arduino Servo Library](https://github.com/arduino-libraries/Servo)
+
+- AtMega328P baudrate: `115200`
