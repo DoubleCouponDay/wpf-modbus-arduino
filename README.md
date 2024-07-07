@@ -15,6 +15,7 @@ Wifi is relayed through the ESP8266. Program the ESP8266 using the Arduino IDE w
 
     min pulse width = 544
     max pulse width = 2400
+    maximum PWM frequency = 500hz
 
     servo min = min pulse width - (min pulse width * 4)
     => -1632 //not sure why the arduino servo library is calculating this as negative
