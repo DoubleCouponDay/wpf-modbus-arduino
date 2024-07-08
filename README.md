@@ -1,15 +1,20 @@
 # wpf-modbus
-Example application of a WPF HMI connected to an Arduino Uno With Wifi R3.
+Example application of a WPF HMI connected to an Arduino Uno R3.
 
 ## Setting up 
 
-Wifi is relayed through the ESP8266. Program the ESP8266 using the Arduino IDE with the following steps:
+Installing the following libraries using the Arduino IDE:
 
-- Add the following Board Manager to the IDE:
+- ModbusSerial
 
-    http://arduino.esp8266.com/stable/package_esp8266com_index.json
+- Modbus
 
-- Install the esp8266 Board Manager.
+Manually install the following library:
+
+- [modbus-arduino](https://github.com/epsilonrt/modbus-arduino/releases/tag/v1.3.0)
+
+    Place it in `~/Documents/Arduino/Libraries`
+
 
 ## Calculations (based on Arduino Servo Library)
 
@@ -45,8 +50,6 @@ Wifi is relayed through the ESP8266. Program the ESP8266 using the Arduino IDE w
     => 113.17338 * 10^-6
 
 ## References
-
-- [Uno with Wifi Programming Tutorial](https://www.instructables.com/UNO-R3-WIFI-ESP8266-CH340G-Arduino-and-WIFI-a-Vers/)
 
 - [Arduino PLC Physical Addressing](https://autonomylogic.com/docs/2-4-physical-addressing/)
 
