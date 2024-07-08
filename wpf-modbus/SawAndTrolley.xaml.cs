@@ -62,9 +62,9 @@ namespace wpf_modbus
             DataContext = this;
         }
 
-        private void ManualSawAngle_TextChanged(object sender, TextChangedEventArgs e)
+        private void ManualSawAngle_KeyDown(object sender, KeyEventArgs e)
         {
-            if (SawConnection == null) {
+            if (SawConnection == null || e.Key != Key.Enter) {
                 return;
             }
             short output;

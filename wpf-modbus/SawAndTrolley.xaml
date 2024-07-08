@@ -12,7 +12,7 @@
         <TextBox x:Name="ManualTrolleyPosition" Margin="10,60,0,0" TextWrapping="Wrap" Width="120" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" />
         <Label Content="mm" Margin="130,55,0,0" Width="30" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
         <Label Content="Saw Angle" Margin="170,40,0,0" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
-        <TextBox x:Name="ManualSawAngle" Margin="175,60,0,0" TextWrapping="Wrap" Width="120" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" TextChanged="ManualSawAngle_TextChanged" />
+        <TextBox x:Name="ManualSawAngle" Margin="175,60,0,0" TextWrapping="Wrap" Width="120" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" KeyDown="ManualSawAngle_KeyDown"  />
         <Label Content="Deg" Margin="280,40,0,0" Width="40" Height="30" />
     </Grid>
 </UserControl>
