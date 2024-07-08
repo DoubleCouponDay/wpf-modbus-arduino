@@ -50,6 +50,30 @@ namespace wpf_modbus
         }
         private bool readonlyField;
 
+        public string SawText
+        {
+            get
+            {
+                return ManualSawAngle.Text;
+            }
+            set
+            {
+                ManualSawAngle.Text = value;
+            }
+        }
+
+        public string TrolleyText
+        {
+            get
+            {
+                return ManualTrolleyPosition.Text;
+            }
+            set
+            {
+                ManualTrolleyPosition.Text = value;
+            }
+        }
+
         public Modbus? SawConnection { get; set; }
         public Modbus? TrolleyConnection { get; set; }
 

@@ -2,16 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Timers;
 
 namespace wpf_modbus
 {
@@ -22,6 +15,7 @@ namespace wpf_modbus
     {
         Modbus sawConnection;
         Modbus trolleyConnection;
+        System.Timers.Timer timer;
 
         public ControlPanel(Modbus inputSawConnection, Modbus inputTrolleyConnection)
         {
@@ -35,11 +29,28 @@ namespace wpf_modbus
             Bench.TrolleyConnection = inputTrolleyConnection;
             ManualControl.SawConnection = inputSawConnection;
             ManualControl.TrolleyConnection = inputTrolleyConnection;
+
+            Setup_ModbusRead();
         }
 
         private void NinetyDeg_OnClick(object sender, RoutedEventArgs e)
         {
             sawConnection.WriteSingleRegister(1, 90);
+        }
+
+        void Setup_ModbusRead()
+        {
+            timer = new System.Timers.Timer();
+
+            timer.Elapsed += OnOneSecond;
+            timer.Interval = 1000;
+            timer.Start();
+        }
+
+        void OnOneSecond(object? sender, ElapsedEventArgs e)
+        {
+            Span<int> sawAngle = sawConnection.ReadHoldingRegisters<int>(1, 1);
+            Bench.SawText = sawAngle.ToString();
         }
     }
 }
