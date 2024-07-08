@@ -24,6 +24,7 @@ void Setup_ModbusServer() {
   modbusInstance.config(baudRate);
   modbusInstance.addHreg(angleAddress, defaultAngle);
   modbusInstance.addCoil(aliveAddress, true);
+  modbusInstance.setDebug();
 }
 
 void loop() {
@@ -50,7 +51,7 @@ void loop() {
 
   //send a message to the client
   String message = String("angle: ") + String(angle);
-  modbusInstance.debug(message.c_str());
+  modbusInstance.
 
   //flash the led
   digitalWrite(ledPin, ledState);

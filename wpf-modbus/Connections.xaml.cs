@@ -33,13 +33,15 @@ namespace wpf_modbus
 
         public Connections()
         {
+            const int SERVER_ID = 12; //hard coded for the demo
+
             InitializeComponent();
             DataContext = this;
-            controlPanelPage = new ControlPanel(sawConnection, trolleyConnection);
-            var prodBridge = new ModbusBridge();
+            var prodBridge = new ModbusBridge(SERVER_ID);
             var mockBridge = new JustWorksBridge(0, 0);
             sawConnection = new Modbus(prodBridge);
             trolleyConnection = new Modbus(mockBridge);
+            controlPanelPage = new ControlPanel(sawConnection, trolleyConnection);
         }
 
         void ConnectSaw_Click(object sender, RoutedEventArgs e)

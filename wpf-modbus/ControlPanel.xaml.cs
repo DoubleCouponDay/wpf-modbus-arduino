@@ -29,6 +29,17 @@ namespace wpf_modbus
             DataContext = this;
             sawConnection = inputSawConnection;
             trolleyConnection = inputTrolleyConnection;
+            
+            //pass connections
+            Bench.SawConnection = inputSawConnection;
+            Bench.TrolleyConnection = inputTrolleyConnection;
+            ManualControl.SawConnection = inputSawConnection;
+            ManualControl.TrolleyConnection = inputTrolleyConnection;
+        }
+
+        private void NinetyDeg_OnClick(object sender, RoutedEventArgs e)
+        {
+            sawConnection.WriteSingleRegister(1, 90);
         }
     }
 }

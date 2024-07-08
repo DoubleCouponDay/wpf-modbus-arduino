@@ -35,10 +35,45 @@ namespace wpf_modbus
             }
         }
 
+        public bool Readonly
+        { 
+            get 
+            {
+                return readonlyField;
+            }
+            set
+            {
+                readonlyField = value;
+                ManualTrolleyPosition.IsReadOnly = !value;
+                ManualSawAngle.IsReadOnly = !value;
+            }
+        }
+        private bool readonlyField;
+
+        public Modbus? SawConnection { get; set; }
+        public Modbus? TrolleyConnection { get; set; }
+
+        int sawAngle;
+        int trolleyPosition;
+
         public SawAndTrolley()
         {
             InitializeComponent();
             DataContext = this;
+        }
+
+        private void ManualSawAngle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (SawConnection == null) {
+                return;
+            }
+            short output;
+            bool isInt = short.TryParse(ManualSawAngle.Text, out output);
+
+            if (isInt == false) {
+                return;
+            }
+            SawConnection.WriteSingleRegister(1, output);
         }
     }
 }

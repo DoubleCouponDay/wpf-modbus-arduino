@@ -12,6 +12,7 @@ namespace wpf_modbus
     {
         IModbusBridge bridge;
 
+
         public Modbus(IModbusBridge inputBridge)
         {
             bridge = inputBridge;
@@ -27,24 +28,24 @@ namespace wpf_modbus
             return bridge.IsConnected();
         }
 
-        public Span<byte> ReadCoils(int unitIdentifier, int startingAddress, int quantity)
+        public Span<byte> ReadCoils(int startingAddress, int quantity)
         {
-            return bridge.ReadCoils(unitIdentifier, startingAddress, quantity);
+            return bridge.ReadCoils(startingAddress, quantity);
         }
 
-        public Span<T> ReadHoldingRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged
+        public Span<T> ReadHoldingRegisters<T>(int startingAddress, int count) where T : unmanaged
         {
-            return ReadHoldingRegisters<T>(unitIdentifier, startingAddress, count);
+            return ReadHoldingRegisters<T>(startingAddress, count);
         }
 
-        public void WriteSingleCoil(int unitIdentifier, int startingAddress, bool value)
+        public void WriteSingleCoil(int registerAddress, bool value)
         {
-            bridge.WriteSingleCoil(unitIdentifier, startingAddress, value);
+            bridge.WriteSingleCoil(registerAddress, value);
         }
 
-        public void WriteSingleRegister(int unitIdentifier, int registerAddress, short value)
+        public void WriteSingleRegister(int registerAddress, short value)
         {
-            bridge.WriteSingleRegister(unitIdentifier, registerAddress, value);
+            bridge.WriteSingleRegister(registerAddress, value);
         }
     }
 
@@ -52,10 +53,10 @@ namespace wpf_modbus
     {
         bool IsConnected();
         void Connect(string port);
-        Span<byte> ReadCoils(int unitIdentifier, int startingAddress, int quantity);
-        void WriteSingleCoil(int unitIdentifier, int startingAddress, bool value);
-        Span<T> ReadHoldingRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged;
-        void WriteSingleRegister(int unitIdentifier, int registerAddress, short value);
+        Span<byte> ReadCoils(int startingAddress, int quantity);
+        void WriteSingleCoil(int registerAddress, bool value);
+        Span<T> ReadHoldingRegisters<T>(int startingAddress, int count) where T : unmanaged;
+        void WriteSingleRegister(int registerAddress, short value);
     }
 
     /// <summary>
@@ -64,12 +65,16 @@ namespace wpf_modbus
     class ModbusBridge : IModbusBridge, IDisposable
     {
         public string Port { get; private set; } = string.Empty;
+        public int ServerId {  get; private set; }
+
         ModbusRtuClient client;
+        
 
 
-        public ModbusBridge()
+        public ModbusBridge(int serverId)
         {
             client = new ModbusRtuClient();
+            ServerId = serverId;
         }
 
         public bool IsConnected()
@@ -79,8 +84,16 @@ namespace wpf_modbus
 
         public void Connect(string port)
         {
-            client.Connect(port);
-            Port = port;
+            try
+            {
+                client.Connect(port, ModbusEndianness.BigEndian);
+                Port = port;
+            }
+
+            catch
+            {
+
+            }
         }
 
         private void AssertConnected()
@@ -91,28 +104,28 @@ namespace wpf_modbus
             }
         }
 
-        public Span<byte> ReadCoils(int unitIdentifier, int startingAddress, int quantity)
+        public Span<byte> ReadCoils(int startingAddress, int quantity)
         {
             AssertConnected();
-            return client.ReadCoils(unitIdentifier, startingAddress, quantity);
+            return client.ReadCoils(ServerId, startingAddress, quantity);
         }
 
-        public void WriteSingleCoil(int unitIdentifier, int startingAddress, bool value)
+        public void WriteSingleCoil(int registerAddress, bool value)
         {
             AssertConnected();
-            client.WriteSingleCoil(unitIdentifier, startingAddress, value);
+            client.WriteSingleCoil(ServerId, registerAddress, value);
         }
 
-        public Span<T> ReadHoldingRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged
+        public Span<T> ReadHoldingRegisters<T>(int startingAddress, int count) where T : unmanaged
         {
             AssertConnected();
-            return client.ReadHoldingRegisters<T>(unitIdentifier, startingAddress, count);
+            return client.ReadHoldingRegisters<T>(ServerId, startingAddress, count);
         }
 
-        public void WriteSingleRegister(int unitIdentifier, int registerAddress, short value)
+        public void WriteSingleRegister(int registerAddress, short value)
         {
             AssertConnected();
-            client.WriteSingleRegister(unitIdentifier, registerAddress, value);
+            client.WriteSingleRegister(ServerId, registerAddress, value);
         }
 
         public void Dispose()

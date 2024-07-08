@@ -29,12 +29,12 @@ namespace wpf_modbus
             return true;
         }
 
-        public Span<byte> ReadCoils(int unitIdentifier, int startingAddress, int quantity)
+        public Span<byte> ReadCoils(int startingAddress, int quantity)
         {
             return new Span<byte>(coils);
         }
 
-        public Span<T> ReadHoldingRegisters<T>(int unitIdentifier, int startingAddress, int count) where T : unmanaged
+        public Span<T> ReadHoldingRegisters<T>(int startingAddress, int count) where T : unmanaged
         {
             var asSpan = registers.AsSpan();
             ReadOnlySpan<T> readonlySpan = MemoryMarshal.Cast<byte, T>(asSpan);
@@ -43,7 +43,7 @@ namespace wpf_modbus
             return output;
         }
 
-        public void WriteSingleCoil(int unitIdentifier, int startingAddress, bool value)
+        public void WriteSingleCoil(int startingAddress, bool value)
         {
             if (value) {
                 coils[0] |= (byte)(1 << startingAddress);
@@ -55,7 +55,7 @@ namespace wpf_modbus
             }
         }
 
-        public void WriteSingleRegister(int unitIdentifier, int registerAddress, short value)
+        public void WriteSingleRegister(int registerAddress, short value)
         {
             registers[0] = (byte)value;
         }

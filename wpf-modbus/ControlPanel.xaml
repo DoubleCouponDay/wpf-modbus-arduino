@@ -8,7 +8,7 @@
       Title="Control Panel" Width="800" Height="168" MinWidth="800" MinHeight="600">
 
     <Grid>
-        <local:SawAndTrolley ComponentTitle="Bench" VerticalAlignment="Top"  HorizontalAlignment="Left" />
+        <local:SawAndTrolley x:Name="Bench" Readonly="True" ComponentTitle="Bench" VerticalAlignment="Top" HorizontalAlignment="Left" />
 
         <Grid Width="200" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="250,130,0,0">
             <Button Content="x1" Margin="10,0,0,0" Width="50" Height="50" VerticalAlignment="Center" HorizontalAlignment="Left" />
@@ -33,8 +33,8 @@
             <TabItem Header="Manual">
                 <Grid Background="#FFE5E5E5">
                     <Button  Width="160" Height="40" Content="Advanced Manual Controls" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,40,0,0" />
-                    <local:SawAndTrolley VerticalAlignment="Top" />
-                    <Button Width="80" Height="40" Content="90 Deg" VerticalAlignment="Top" Margin="80,110,0,0" Background="Green" Foreground="White" />
+                    <local:SawAndTrolley x:Name="ManualControl" VerticalAlignment="Top" />
+                    <Button Width="80" Height="40" Content="90 Deg" VerticalAlignment="Top" Margin="80,110,0,0" Background="Green" Foreground="White" Click="NinetyDeg_OnClick" />
                     <Button Width="50" Height="50" Content="Up" VerticalAlignment="Bottom"  HorizontalAlignment="Left" Margin="10,0,0,70" />
                     <Button Width="100" Height="50" Content="Start Member" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="70,0,0,70" Background="Green"  Foreground="White" />
                     <Button Width="50" Height="50" Content="Down" VerticalAlignment="Bottom"  HorizontalAlignment="Left" Margin="10,0,0,10" />
