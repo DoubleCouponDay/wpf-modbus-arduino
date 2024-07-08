@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://www.plcopen.org/xml/tc6_0201" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:ns1="http://www.plcopen.org/xml/tc6_0201">
   <fileHeader companyName="Unknown" productName="motor_driver" productVersion="1" creationDateTime="2024-07-05T11:44:58"/>
-  <contentHeader name="motor_driver" modificationDateTime="2024-07-08T12:05:59">
+  <contentHeader name="motor_driver" modificationDateTime="2024-07-08T13:35:26">
     <coordinateInfo>
       <fbd>
         <scaling x="10" y="10"/>
@@ -109,31 +109,31 @@ led_on_timer(IN := NOT(led_off_timer.Q), PT := T#50ms);
 led_off_timer(IN := led_on_timer.Q, PT := T#50ms);
 led := led_off_timer.Q;
 
-(* validate the servo angle *)
-IF(input_angle < 0) THEN
-  input_angle := 0;
-
-ELSIF(input_angle > 180) THEN
-  input_angle := 180;
-
-END_IF;
-
-(* control the servo *)
-real_angle := INT_TO_REAL(input_angle);
-duty_cycle := REAL_TO_UINT(100.0 / 180.0 * real_angle);
-
-on_PT := GET_ON_TIME(duty_cycle);
-off_PT := GET_OFF_TIME(duty_cycle);
-
-output_on_timer(IN := NOT(output_off_timer.Q), PT := on_PT);
-output_off_timer(IN := output_on_timer.Q, PT := off_PT);
-
-IF output_on_timer.Q THEN
-  output_pin := 65535;
-  
-ELSE
-  output_pin := 0;
-
+(* validate the servo angle *)
+IF(input_angle < 0) THEN
+  input_angle := 0;
+
+ELSIF(input_angle > 180) THEN
+  input_angle := 180;
+
+END_IF;
+
+(* control the servo *)
+real_angle := INT_TO_REAL(input_angle);
+duty_cycle := REAL_TO_UINT(100.0 / 180.0 * real_angle);
+
+on_PT := GET_ON_TIME(duty_cycle);
+off_PT := GET_OFF_TIME(duty_cycle);
+
+output_on_timer(IN := NOT(output_off_timer.Q), PT := on_PT);
+output_off_timer(IN := output_on_timer.Q, PT := off_PT);
+
+IF output_on_timer.Q THEN
+  output_pin := 65535;
+  
+ELSE
+  output_pin := 0;
+  
 END_IF;
 ]]></xhtml:p>
           </ST>
@@ -164,27 +164,7 @@ END_IF;
             </variable>
             <variable name="rounding2">
               <type>
-                <INT/>
-              </type>
-            </variable>
-            <variable name="rounding3">
-              <type>
-                <INT/>
-              </type>
-            </variable>
-            <variable name="milli_string">
-              <type>
-                <string/>
-              </type>
-            </variable>
-            <variable name="concat1">
-              <type>
-                <string/>
-              </type>
-            </variable>
-            <variable name="concat2">
-              <type>
-                <string/>
+                <REAL/>
               </type>
             </variable>
           </localVars>
@@ -194,20 +174,11 @@ END_IF;
             <xhtml:p><![CDATA[milliseconds := 2.0 / 100.0 * UINT_TO_REAL(duty_cycle);
 
 (* get all individual unit values *)
-rounding1 := REAL_TO_INT(milliseconds);
-rounding2 := REAL_TO_INT(milliseconds * 10.0) - (rounding1 * 10); (* eg: 32 - 30 = 2 *)
-rounding3 := REAL_TO_INT(milliseconds * 100.0) - (rounding1 * 100) - (rounding2 * 100); (* eg: 325 - 300 - 20 = 5 *)
+rounding1 := REAL_TO_INT(milliseconds * 100.0);
+rounding2 := INT_TO_REAL(rounding1) / 100000.0;
 
 (* create string of a real number 2 decimal places *)
-milli_string := CONCAT(INT_TO_STRING(rounding1), '.');
-milli_string := CONCAT(milli_string, INT_TO_STRING(rounding2));
-milli_string := CONCAT(milli_string, INT_TO_STRING(rounding3));
-
-(* create a time from the rounded value *)
-concat1 := CONCAT('T#', milli_string);
-concat2 := CONCAT(milli_string, 'ms');
-GET_ON_TIME := STRING_TO_TIME(concat2);
-RETURN;
+GET_ON_TIME := REAL_TO_TIME(rounding2);
 ]]></xhtml:p>
           </ST>
         </body>
@@ -237,27 +208,7 @@ RETURN;
             </variable>
             <variable name="rounding2">
               <type>
-                <INT/>
-              </type>
-            </variable>
-            <variable name="rounding3">
-              <type>
-                <INT/>
-              </type>
-            </variable>
-            <variable name="milli_string">
-              <type>
-                <string/>
-              </type>
-            </variable>
-            <variable name="concat1">
-              <type>
-                <string/>
-              </type>
-            </variable>
-            <variable name="concat2">
-              <type>
-                <string/>
+                <REAL/>
               </type>
             </variable>
           </localVars>
@@ -267,20 +218,11 @@ RETURN;
             <xhtml:p><![CDATA[milliseconds := 2.0 - (2.0 / 100.0 * UINT_TO_REAL(duty_cycle));
 
 (* get all individual unit values *)
-rounding1 := REAL_TO_INT(milliseconds);
-rounding2 := REAL_TO_INT(milliseconds * 10.0) - (rounding1 * 10); (* eg: 32 - 30 = 2 *)
-rounding3 := REAL_TO_INT(milliseconds * 100.0) - (rounding1 * 100) - (rounding2 * 100); (* eg: 325 - 300 - 20 = 5 *)
+rounding1 := REAL_TO_INT(milliseconds * 100.0);
+rounding2 := INT_TO_REAL(rounding1) / 100000.0;
 
 (* create string of a real number 2 decimal places *)
-milli_string := CONCAT(INT_TO_STRING(rounding1), '.');
-milli_string := CONCAT(milli_string, INT_TO_STRING(rounding2));
-milli_string := CONCAT(milli_string, INT_TO_STRING(rounding3));
-
-(* create a time from the rounded value *)
-concat1 := CONCAT('T#', milli_string);
-concat2 := CONCAT(milli_string, 'ms');
-GET_OFF_TIME := STRING_TO_TIME(concat2);
-RETURN;
+GET_OFF_TIME := REAL_TO_TIME(rounding2);
 ]]></xhtml:p>
           </ST>
         </body>
