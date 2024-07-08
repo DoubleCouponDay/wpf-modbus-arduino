@@ -10,8 +10,8 @@ const int ledPin = 13;
 Servo servoInstance;
 ModbusSerial modbusInstance(Serial, serverId); //RS485 not used so TX pin set to disabled
 
-int angleAddress;
-int aliveAddress;
+int angleAddress = 1;
+int aliveAddress = 1;
 bool ledState;
 
 void setup() {
@@ -22,10 +22,8 @@ void setup() {
 void Setup_ModbusServer() {
   Serial.begin(baudRate, MB_PARITY_EVEN);
   modbusInstance.config(baudRate);
-  modbusInstance.setAdditionalServerData("SERVO");
   modbusInstance.addHreg(angleAddress, defaultAngle);
   modbusInstance.addCoil(aliveAddress, true);
-
 }
 
 void loop() {
@@ -49,6 +47,10 @@ void loop() {
   bool isAlive = modbusInstance.Coil(aliveAddress);
   isAlive = !isAlive;
   modbusInstance.setCoil(aliveAddress, isAlive);
+
+  //send a message to the client
+  String message = String("angle: ") + String(angle);
+  modbusInstance.debug(message.c_str());
 
   //flash the led
   digitalWrite(ledPin, ledState);
