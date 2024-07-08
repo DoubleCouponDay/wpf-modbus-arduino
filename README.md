@@ -1,4 +1,4 @@
-# wpf-modbus
+# wpf-modbus-arduino
 Example application of a WPF HMI connected to an Arduino Uno R3.
 
 ## Setting up 
@@ -14,7 +14,6 @@ Manually install the following library:
 - [modbus-arduino](https://github.com/epsilonrt/modbus-arduino/releases/tag/v1.3.0)
 
     Place it in `~/Documents/Arduino/Libraries`
-
 
 ## Calculations (based on Arduino Servo Library)
 
