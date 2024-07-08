@@ -2,14 +2,17 @@
 #include <ModbusSerial.h>
 
 const int servoPin = 10;
-const int baudRate = 115200;
+const int baudRate = 9600;
 const int defaultAngle = 90;
+const int serverId = 12;
+const int ledPin = 13;
 
 Servo servoInstance;
-ModbusSerial modbusInstance(Serial, 1, -1); //RS485 not used so TX pin set to disabled
+ModbusSerial modbusInstance(Serial, serverId); //RS485 not used so TX pin set to disabled
 
-int angleAddress; 
+int angleAddress;
 int aliveAddress;
+bool ledState;
 
 void setup() {
   servoInstance.attach(servoPin);
@@ -22,12 +25,13 @@ void Setup_ModbusServer() {
   modbusInstance.setAdditionalServerData("SERVO");
   modbusInstance.addHreg(angleAddress, defaultAngle);
   modbusInstance.addCoil(aliveAddress, true);
+
 }
 
 void loop() {
   //apply the servo angle
   modbusInstance.task();
-  word angle = modbusInstance.Hreg(angleAddress);
+  word angle = modbusInstance.hreg(angleAddress);
 
   if(angle > 180) {
     modbusInstance.setHreg(angleAddress, 180);
@@ -45,4 +49,8 @@ void loop() {
   bool isAlive = modbusInstance.Coil(aliveAddress);
   isAlive = !isAlive;
   modbusInstance.setCoil(aliveAddress, isAlive);
+
+  //flash the led
+  digitalWrite(ledPin, ledState);
+  ledState = !ledState;
 }
