@@ -7,13 +7,9 @@ Installing the following libraries using the Arduino IDE:
 
 - ModbusSerial
 
-- Modbus
-
-Manually install the following library:
+Manually install the following libraries into your `~/Documents/Arduino/Libraries` folder:
 
 - [modbus-arduino](https://github.com/epsilonrt/modbus-arduino/releases/tag/v1.3.0)
-
-    Place it in `~/Documents/Arduino/Libraries`
 
 ## Calculations (based on Arduino Servo Library)
 
