@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<CFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <variables>
+    <variable name="input_angle" type="INT"/>
+  </variables>
+  <sketch>
+    <xhtml:p><![CDATA[
+#include <Servo.h>
+
+Servo servo;
+
+void sketch_setup()
+{
+    servo.attach(10);
+}
+
+void sketch_loop()
+{
+    servo.write(input_angle);
+    delay(15);
+}
+]]></xhtml:p>
+  </sketch>
+</CFile>
