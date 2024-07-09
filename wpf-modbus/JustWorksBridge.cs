@@ -24,6 +24,11 @@ namespace wpf_modbus
 
         }
 
+        public void Dispose()
+        {
+            
+        }
+
         public bool IsConnected()
         {
             return true;

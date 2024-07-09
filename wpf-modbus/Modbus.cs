@@ -47,9 +47,14 @@ namespace wpf_modbus
         {
             bridge.WriteSingleRegister(registerAddress, value);
         }
+
+        public void Dispose()
+        {
+            bridge.Dispose();
+        }
     }
 
-    public interface IModbusBridge
+    public interface IModbusBridge : IDisposable
     {
         bool IsConnected();
         void Connect(string port);
@@ -62,15 +67,13 @@ namespace wpf_modbus
     /// <summary>
     /// Disconnects the current connection
     /// </summary>
-    class ModbusBridge : IModbusBridge, IDisposable
+    class ModbusBridge : IModbusBridge
     {
         public string Port { get; private set; } = string.Empty;
         public int ServerId {  get; private set; }
 
         ModbusRtuClient client;
         
-
-
         public ModbusBridge(int serverId)
         {
             client = new ModbusRtuClient();

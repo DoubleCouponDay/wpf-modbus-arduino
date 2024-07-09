@@ -19,7 +19,7 @@ namespace wpf_modbus
     /// <summary>
     /// Interaction logic for Connections.xaml
     /// </summary>
-    public partial class Connections : Page
+    public partial class Connections : Page, IDisposable
     {
         const string CONNECTION_FAILED = "Error: Connection failed.";
         const string CONNECTION_SUCCESS = "SUCCESS";
@@ -41,7 +41,6 @@ namespace wpf_modbus
             var mockBridge = new JustWorksBridge(0, 0);
             sawConnection = new Modbus(prodBridge);
             trolleyConnection = new Modbus(mockBridge);
-            controlPanelPage = new ControlPanel(sawConnection, trolleyConnection);
         }
 
         void ConnectSaw_Click(object sender, RoutedEventArgs e)
@@ -95,7 +94,14 @@ namespace wpf_modbus
 
         private void ControlPanel_Click(object sender, RoutedEventArgs e)
         {
+            controlPanelPage = new ControlPanel(sawConnection, trolleyConnection);
             NavigationService.Navigate(controlPanelPage);
+        }
+
+        public void Dispose()
+        {
+            sawConnection.Dispose();
+            trolleyConnection.Dispose();
         }
     }
 }

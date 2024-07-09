@@ -49,8 +49,8 @@ namespace wpf_modbus
 
         void OnOneSecond(object? sender, ElapsedEventArgs e)
         {
-            Span<int> sawAngle = sawConnection.ReadHoldingRegisters<int>(1, 1);
-            Bench.SawText = sawAngle.ToString();
+            //Span<int> sawAngle = sawConnection.ReadHoldingRegisters<int>(1, 1);
+            //Bench.SawText = sawAngle.ToString();
         }
     }
 }
