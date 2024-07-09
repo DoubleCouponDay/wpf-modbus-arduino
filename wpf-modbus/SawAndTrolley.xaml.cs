@@ -44,8 +44,8 @@ namespace wpf_modbus
             set
             {
                 readonlyField = value;
-                ManualTrolleyPosition.IsReadOnly = !value;
-                ManualSawAngle.IsReadOnly = !value;
+                ManualTrolleyPosition.IsEnabled = !value;
+                ManualSawAngle.IsEnabled = !value;
             }
         }
         private bool readonlyField;
